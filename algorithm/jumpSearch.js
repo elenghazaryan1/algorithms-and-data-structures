@@ -24,5 +24,8 @@ const jumpSearch = (arr, target) => {
   return -1;
 };
 
+// Time Complexity: O(√n)
+// Space Complexity: O(1)
+
 const arr = [1, 3, 5, 7, 10, 13, 15, 17, 19, 21];
 console.log("Index of target:", jumpSearch(arr, 19));
