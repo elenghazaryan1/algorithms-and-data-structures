@@ -1,7 +1,7 @@
 const bubbleSort = (arr) => {
   const n = arr.length;
-  let flag = false;
   for (let i = 0; i < n - 1; ++i) {
+    let flag = false;
     for (let j = 0; j < n - 1 - i; ++j) {
       if (arr[j] > arr[j + 1]) {
         flag = true;
@@ -14,5 +14,17 @@ const bubbleSort = (arr) => {
   return arr;
 };
 
-// Time Complexity: O(n²)
-// Space Complexity: O(1)
+/*
+Time complexity:
+
+Worst case: O(n²)
+Average case: O(n²)
+Best case: O(n)
+
+
+Space complexity: O(1)
+*/
+
+let arr = [9, 6, 2, 5, 1, 7, 0, 4, 8, 3];
+
+console.log(bubbleSort(arr));
