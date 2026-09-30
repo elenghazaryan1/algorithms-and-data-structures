@@ -24,9 +24,9 @@ const countingSort = (arr) => {
 /*
 Time complexity: 
 
-Worst case: O(n * k)
-Average case: O(n * k)
-Best case: O(n * k)
+Worst case: O(n + k)
+Average case: O(n + k)
+Best case: O(n + k)
 
 Space complexity: O(n + k)
 */
