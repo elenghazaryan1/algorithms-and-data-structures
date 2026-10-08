@@ -10,7 +10,7 @@ const mergeSort = (arr, left, right) => {
 
 function merge(arr, left, mid, right) {
   let a1 = arr.slice(left, mid + 1);
-  let a2 = arr.slice(mid + 1, right + 1); //?
+  let a2 = arr.slice(mid + 1, right + 1);
   let i = 0;
   let j = 0;
   let k = left;
@@ -36,8 +36,8 @@ function merge(arr, left, mid, right) {
 Time complexity:
 
 Worst case: O(n log n)
-Average case: O(n log n
-Best case: O(n log n
+Average case: O(n log n)
+Best case: O(n log n)
 
 Space complexity: O(n)
 
