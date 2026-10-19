@@ -1,3 +1,5 @@
+const Queue = require("./Queue");
+const Stack = require("./Stack");
 class TreeNode {
   constructor(data) {
     if (data == null) return;
@@ -61,6 +63,24 @@ class BinarySearchTree {
     result.push(node.data);
   }
 
+  _levelOrder(node, result) {
+    function traverse(node, level) {
+      if (!node) return;
+
+      if (result.length === level) {
+        result.push([]);
+      }
+
+      result[level].push(node.data);
+
+      traverse(node.left, level + 1);
+      traverse(node.right, level + 1);
+    }
+
+    traverse(node, 0);
+    return result;
+  }
+
   _remove(node, value) {
     if (!node) return null;
 
@@ -95,14 +115,94 @@ class BinarySearchTree {
   }
 
   containsRecursive(value) {
-    this.root = this._contains(this.root, value);
+    return this._contains(this.root, value);
+  }
+  inorderIterative() {
+    const result = [];
+    const stack = new Stack();
+    let cur = this.root;
+    while (cur || !stack.isEmpty()) {
+      while (cur) {
+        stack.push(cur);
+        cur = cur.left;
+      }
+      cur = stack.pop();
+      result.push(cur.data);
+      cur = cur.right;
+    }
+
+    return result;
+  }
+
+  postOrderIterative() {
+    if (!this.root) return [];
+    const result = [];
+    const stack1 = new Stack();
+    const stack2 = new Stack();
+    stack1.push(this.root);
+    while (!stack1.isEmpty()) {
+      let cur = stack1.pop();
+      stack2.push(cur);
+      if (cur.left) stack1.push(cur.left);
+      if (cur.right) stack1.push(cur.right);
+    }
+    while (!stack2.isEmpty()) {
+      result.push(stack2.pop().data);
+    }
+    return result;
+  }
+
+  preorderIterative() {
+    if (!this.root) return [];
+    const result = [];
+    const stack = new Stack();
+    stack.push(this.root);
+
+    while (!stack.isEmpty()) {
+      let cur = stack.pop();
+      if (cur.right) stack.push(cur.right);
+      if (cur.left) stack.push(cur.left);
+
+      result.push(cur.data);
+    }
+    return result;
+  }
+
+  levelOrderIterative() {
+    if (!this.root) return [];
+    const result = [];
+    const queue = new Queue();
+    queue.enqueue(this.root);
+    let levelCount = 0;
+
+    while (!queue.isEmpty()) {
+      let levelSize = queue.size;
+
+      for (let i = 0; i < levelSize; ++i) {
+        let cur = queue.dequeue();
+        if (cur.left) queue.enqueue(cur.left);
+        if (cur.right) queue.enqueue(cur.right);
+
+        result.push(cur.data);
+      }
+      levelCount++;
+    }
+    console.log("Level of this tree is", levelCount);
+    return result;
+  }
+
+  levelOrderRecursive() {
+    const result = [];
+
+    this._levelOrder(this.root, result);
+
+    return result.flat();
   }
 
   inOrderRecursive() {
     const result = [];
 
     this._inorder(this.root, result);
-    console.log(result);
     return result;
   }
 
@@ -110,7 +210,6 @@ class BinarySearchTree {
     const result = [];
 
     this._preOrder(this.root, result);
-    console.log(result);
     return result;
   }
 
@@ -118,7 +217,6 @@ class BinarySearchTree {
     const result = [];
 
     this._postOrder(this.root, result);
-    console.log(result);
     return result;
   }
 
@@ -170,32 +268,62 @@ class BinarySearchTree {
 }
 
 // ==================== Binary Search Tree TESTS ====================
+
 const bst = new BinarySearchTree();
 
-bst.insert(10);
-bst.insert(5);
-bst.insert(15);
-bst.insert(3);
-bst.insert(7);
+// Insert
+[10, 5, 15, 3, 7, 12, 18].forEach((value) => bst.insert(value));
 
-bst.inOrderRecursive();
-// [3, 5, 7, 10, 15]
-
-bst.preOrderRecursive();
-// [10, 5, 3, 7, 15]
-
-bst.postOrderRecursive();
-// [3, 7, 5, 15, 10]
-
-console.log(bst.contains(5)); // true
+// Contains
+console.log(bst.contains(7)); // true
 console.log(bst.contains(20)); // false
 
-console.log(bst.getMin(bst.root)); // 3
+// Contains Recursive
+console.log(bst.containsRecursive(5)); // true
+console.log(bst.containsRecursive(20)); // false
 
+// Inorder
+console.log("Inorder Recursive:", bst.inOrderRecursive());
+// [3, 5, 7, 10, 12, 15, 18]
+
+console.log("Inorder Iterative:", bst.inorderIterative());
+// [3, 5, 7, 10, 12, 15, 18]
+
+// Preorder
+console.log("Preorder Recursive:", bst.preOrderRecursive());
+// [10, 5, 3, 7, 15, 12, 18]
+
+console.log("Preorder Iterative:", bst.preorderIterative());
+// [10, 5, 3, 7, 15, 12, 18]
+
+// Postorder
+console.log("Postorder Recursive:", bst.postOrderRecursive());
+// [3, 7, 5, 12, 18, 15, 10]
+
+console.log("Postorder Iterative:", bst.postOrderIterative());
+// [3, 7, 5, 12, 18, 15, 10]
+
+// Level Order
+console.log("Level Order Recursive:", bst.levelOrderRecursive());
+// [10, 5, 15, 3, 7, 12, 18]
+
+console.log("Level Order Iterative:", bst.levelOrderIterative());
+// [10, 5, 15, 3, 7, 12, 18]
+
+// Get Minimum
+console.log("Minimum:", bst.getMin(bst.root)); // 3
+
+// Remove a leaf node
 bst.removeRecursive(3);
-bst.inOrderRecursive();
-// [5, 7, 10, 15]
+console.log(bst.inOrderRecursive());
+// [5, 7, 10, 12, 15, 18]
 
+// Remove a node with two children
+bst.removeRecursive(15);
+console.log(bst.inOrderRecursive());
+// [5, 7, 10, 12, 18]
+
+// Remove the root
 bst.removeRecursive(10);
-bst.inOrderRecursive();
-// [5, 7, 15]
+console.log(bst.inOrderRecursive());
+// [5, 7, 12, 18]
