@@ -79,75 +79,77 @@ class Queue {
 
 // ==================== Queue TESTS ====================
 
-const queue = new Queue(5);
+module.exports = Queue;
+if (require.main === module) {
+  const queue = new Queue();
+  console.log(queue.isEmpty());
+  // true
 
-console.log(queue.isEmpty());
-// true
+  queue.enqueue(10);
+  queue.enqueue(20);
+  queue.enqueue(30);
 
-queue.enqueue(10);
-queue.enqueue(20);
-queue.enqueue(30);
+  console.log([...queue]);
+  // [10, 20, 30]
 
-console.log([...queue]);
-// [10, 20, 30]
+  console.log(queue.get_front());
+  // 10
 
-console.log(queue.get_front());
-// 10
+  console.log(queue.get_back());
+  // 30
 
-console.log(queue.get_back());
-// 30
+  console.log(queue.dequeue());
+  // 10
 
-console.log(queue.dequeue());
-// 10
+  console.log([...queue]);
+  // [20, 30]
 
-console.log([...queue]);
-// [20, 30]
+  queue.enqueue(40);
+  queue.enqueue(50);
+  queue.enqueue(60);
 
-queue.enqueue(40);
-queue.enqueue(50);
-queue.enqueue(60);
+  console.log([...queue]);
+  // [20, 30, 40, 50, 60]
 
-console.log([...queue]);
-// [20, 30, 40, 50, 60]
+  console.log(queue.get_front());
+  // 20
 
-console.log(queue.get_front());
-// 20
+  console.log(queue.get_back());
+  // 60
 
-console.log(queue.get_back());
-// 60
+  queue.print();
+  // [20, 30, 40, 50, 60]
 
-queue.print();
-// [20, 30, 40, 50, 60]
+  console.log(queue.dequeue());
+  // 20
 
-console.log(queue.dequeue());
-// 20
+  console.log(queue.dequeue());
+  // 30
 
-console.log(queue.dequeue());
-// 30
+  console.log([...queue]);
+  // [40, 50, 60]
 
-console.log([...queue]);
-// [40, 50, 60]
+  queue.enqueue(70);
+  queue.enqueue(80);
 
-queue.enqueue(70);
-queue.enqueue(80);
+  console.log([...queue]);
+  // [40, 50, 60, 70, 80]
 
-console.log([...queue]);
-// [40, 50, 60, 70, 80]
+  console.log(queue.get_front());
+  // 40
 
-console.log(queue.get_front());
-// 40
+  console.log(queue.get_back());
+  // 80
 
-console.log(queue.get_back());
-// 80
+  queue.dequeue();
+  queue.dequeue();
+  queue.dequeue();
+  queue.dequeue();
+  queue.dequeue();
 
-queue.dequeue();
-queue.dequeue();
-queue.dequeue();
-queue.dequeue();
-queue.dequeue();
+  console.log(queue.isEmpty());
+  // true
 
-console.log(queue.isEmpty());
-// true
-
-console.log([...queue]);
-// []
+  console.log([...queue]);
+  // []
+}
