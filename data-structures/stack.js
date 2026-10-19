@@ -7,7 +7,7 @@ class Stack {
   constructor(initialCapacity = 16) {
     this.#capacity = initialCapacity;
     this.#size = 0;
-    this.#array = new Int32Array(initialCapacity);
+    this.#array = new Array(initialCapacity);
     this.#top = 0;
   }
 
@@ -62,56 +62,57 @@ class Stack {
     };
   }
 }
-
+module.exports = Stack;
 // ==================== Stack TESTS ====================
+if (require.main === module) {
+  const stack = new Stack(5);
 
-const stack = new Stack(5);
+  console.log(stack.isEmpty());
+  // true
 
-console.log(stack.isEmpty());
-// true
+  stack.push(10);
+  stack.push(20);
+  stack.push(30);
 
-stack.push(10);
-stack.push(20);
-stack.push(30);
+  console.log(stack.isEmpty());
+  // false
 
-console.log(stack.isEmpty());
-// false
+  console.log(stack.pop());
+  // 30
 
-console.log(stack.pop());
-// 30
+  console.log(stack.pop());
+  // 20
 
-console.log(stack.pop());
-// 20
+  stack.push(40);
+  stack.push(50);
 
-stack.push(40);
-stack.push(50);
+  console.log([...stack]);
+  // [50, 40, 10]
 
-console.log([...stack]);
-// [50, 40, 10]
+  console.log(stack.pop());
+  // 50
 
-console.log(stack.pop());
-// 50
+  console.log(stack.pop());
+  // 40
 
-console.log(stack.pop());
-// 40
+  console.log(stack.pop());
+  // 10
 
-console.log(stack.pop());
-// 10
+  console.log(stack.pop());
+  // undefined
 
-console.log(stack.pop());
-// undefined
+  stack.push(100);
+  stack.push(200);
+  stack.push(300);
 
-stack.push(100);
-stack.push(200);
-stack.push(300);
+  console.log([...stack]);
+  // [300, 200, 100]
 
-console.log([...stack]);
-// [300, 200, 100]
+  stack.clear();
 
-stack.clear();
+  console.log(stack.isEmpty());
+  // true
 
-console.log(stack.isEmpty());
-// true
-
-console.log([...stack]);
-// []
+  console.log([...stack]);
+  // []
+}
