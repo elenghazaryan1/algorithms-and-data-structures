@@ -8,11 +8,25 @@ const quickSort = (arr, low = 0, high = arr.length - 1) => {
   return arr;
 };
 
+function medianOfThree(arr, low, high) {
+  const mid = Math.floor((low + high) / 2);
+  const a = arr[low];
+  const b = arr[mid];
+  const c = arr[high];
+
+  if ((a - b) * (c - a) >= 0) return low;
+  if ((b - a) * (c - b) >= 0) return mid;
+  return high;
+}
+
 const partition = (arr, low, high) => {
+  const pivotIndex = medianOfThree(arr, low, high);
+
+  [arr[low], arr[pivotIndex]] = [arr[pivotIndex], arr[low]];
+
   const pivot = arr[low];
   let i = low + 1;
   let j = high;
-
   while (i <= j) {
     while (arr[i] <= pivot) ++i;
     while (arr[j] > pivot) --j;
